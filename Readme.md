@@ -44,7 +44,7 @@ You can create a token with the following command:<br>
 $token = get-ydtoken -baseurl {URL of the ydentic portal} -ydentictoken {Token created in Ydentic}
 
 ## Get the companyinfo for using by audit log
-Get the company info for reading the auditlog
+Get the company info for reading the auditlog with the following command:<br>
 $company = get-YDCompanyforauditlog -authtoken $token -companyname {Name of your company in Ydentic}
 
 
