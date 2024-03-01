@@ -2,7 +2,7 @@
  .Synopsis
   All powershell commandos, for simple manage your Ydentic API commando's.
 #>
-$version = 0.0.6
+$version = 0.0.7
 
 $script:baseurl = ""
 
