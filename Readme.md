@@ -20,6 +20,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 
 ## Release notes
+### Version 0.1.0
+* Sorted the Audit log on Createdate
+  
 ### Version 0.0.9
 * Fix issue with CompanyGUID in the get-YDactorauditlog
 
