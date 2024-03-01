@@ -2,7 +2,7 @@
  .Synopsis
   All powershell commandos, for simple manage your Ydentic API commando's.
 #>
-$version = 0.0.9
+$version = 0.1.0
 
 $script:baseurl = ""
 
@@ -67,7 +67,7 @@ Function get-YDcompanyauditlog{
     $headers = @{
         "Authorization"= "Bearer $script:authtoken"
     }
-    $uri = $script:baseUrl + "/api/v2/AuditLogging.Services.AuditLogInfo/get-log-entries"
+    $uri = $script:baseUrl + "/api/v2/AuditLogging.Services.AuditLogInfo/get-log-entries-for-company"
     $method = "Post"
 
     $body = @{
@@ -79,7 +79,8 @@ Function get-YDcompanyauditlog{
 
     $YDauditlog = Invoke-WebRequest -Method $method -Uri $uri -Headers $headers -body $body -ErrorAction Stop
     $YDcompanyauditlog = $YDauditlog.content | ConvertFrom-Json
-    return $YDcompanyauditlog
+    $Sortedcompanyauditlog = $YDcompanyauditlog | ForEach-Object { [PSCustomObject]$_ } | Sort-Object { [datetime]$_.DateCreated }
+    return $Sortedcompanyauditlog
 }
 
 
@@ -105,7 +106,8 @@ Function get-YDActorauditlog{
  } | ConvertTo-Json
     $YDactorauditlog = Invoke-WebRequest -Method $method -Uri $uri -Headers $headers -body $body -ErrorAction Stop
     $YDactorauditlog = $YDactorauditlog.content | ConvertFrom-Json
-    return $YDactorauditlog
+    $Sortedactorauditlog = $YDactorauditlog | ForEach-Object { [PSCustomObject]$_ } | Sort-Object { [datetime]$_.DateCreated }
+    return $Sortedactorauditlog
     
 }
 
