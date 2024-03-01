@@ -20,6 +20,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 
 ## Release notes
+### Version 0.0.9
+* Fix issue with CompanyGUID in the get-YDactorauditlog
+
+### Version 0.0.8
+* added and modify multiple commands: set-YDtoken, get-YDtoken, Remove-YDtoken
+* Use **set-YDtoken** to import the token.
+
+### Version 0.0.7
+* Added multiple commands: get-YDcompanyauditlog, get-YDActorauditlog
+* Token will now use the same token after creating
 
 ### Version 0.0.6
 * Added multiple commands: set-YDbaseurl, get-YDbaseurl, remove-YDbaseurl, get-YDCompanyforauditlog
@@ -39,13 +49,31 @@ You can view the baseurl with the following command:<br>
 You can remove the baseurl with the following command:<br>
 **remove-YDbaseurl**
 
-### Create Token
+### Authentication Token
 You can create a token with the following command:<br>
-**$token = get-ydtoken -baseurl {URL of the ydentic portal} -ydentictoken {Token created in Ydentic}**
+**set-YDtoken -ydentictoken {Token created in Ydentic}**
+
+You can view the created token with the following command:<br>
+**get-YDtoken**
+
+You can remove the value of the token with the following command:<br>
+**remove-YDtoken**
 
 ### Get the companyinfo for using by audit log
 Get the company info for reading the auditlog with the following command:<br>
-**$company = get-YDCompanyforauditlog -authtoken $token -companyname {Name of your company in Ydentic}**
+**$company = get-YDCompanyforauditlog -companyname {Name of your company in Ydentic}**
+
+### Get audit log entries
+There are multiple commands to get the auditlog but there are multiple ways to get the auditlog.<br>
+To view all audit log for one company use the following command:<br>
+**get-YDcompanyauditlog -companyid $company**
+
+To view the auditlog filtered by an actor, you can use the following command:<br>
+**get-YDActorauditlog -user {Full UPN of the user} -actorcompanyid {CompanyID from actor} -companyid $company**
+* You can create an variable for actorcompanyid by using the following $Actorcompany = get-YDCompanyforauditlog -companyname {Name of your company in Ydentic}**<br>
+You can now use the following command:<br>
+**get-YDActorauditlog -user {Full UPN of the user} -actorcompanyid $Actorcompany -companyid $company**
+
 
 
 ### Get the current module version
