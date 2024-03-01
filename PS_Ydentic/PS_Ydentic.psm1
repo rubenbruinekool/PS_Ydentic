@@ -2,7 +2,7 @@
  .Synopsis
   All powershell commandos, for simple manage your Ydentic API commando's.
 #>
-$version = 0.0.7
+$version = 0.0.9
 
 $script:baseurl = ""
 
@@ -15,13 +15,7 @@ Function set-YDbaseurl{
     $script:baseUrl = $url
 }
 
-
-##Get
-function get-YDbaseurl{
-    write-host $script:baseurl
-}
-
-Function get-YDtoken
+Function set-YDtoken
 {
     Param(
         [string] $ydentictoken
@@ -36,6 +30,15 @@ Function get-YDtoken
 
     $tokenResponse = Invoke-RestMethod -Method $method -ContentType $ContentType -Uri $uri -Headers $header
     $script:authtoken = $tokenResponse
+}
+
+##Get
+function get-YDbaseurl{
+    write-host $script:baseurl
+}
+
+function get-YDtoken{
+    write-host $script:authtoken
 }
 
 Function get-YDCompanyforauditlog{
@@ -53,6 +56,7 @@ Function get-YDCompanyforauditlog{
     If($null -ne $companyname){
         $company = $companys | Where-Object {$_.name -eq $companyname}
     }
+    $company = $company.guid
     return $company
 }
 
@@ -114,6 +118,11 @@ function remove-YDbaseURL {
     $script:baseUrl = ""
 }
 
+function remove-YDtoken {
+    $script:authtoken = ""
+}
+
+
 
 
 ##Export Functions
@@ -123,5 +132,7 @@ remove-YDbaseURL,
 get-YDCompanyforauditlog,
 get-YDcompanyauditlog,
 get-YDActorauditlog,
+set-YDtoken,
 get-YDtoken,
+remove-YDtoken,
 get-YDmoduleversion
