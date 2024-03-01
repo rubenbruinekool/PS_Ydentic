@@ -35,16 +35,15 @@ Function get-YDtoken
     $ContentType = "application/json"
 
     $tokenResponse = Invoke-RestMethod -Method $method -ContentType $ContentType -Uri $uri -Headers $header
-    return $tokenResponse
+    $script:authtoken = $tokenResponse
 }
 
 Function get-YDCompanyforauditlog{
     Param(
-        [string] $authtoken,
         [string] $companyname
     )
     $headers = @{
-        "Authorization"= "Bearer $authtoken"
+        "Authorization"= "Bearer $script:authtoken"
     }
     $uri = $script:baseUrl + "/api/v2/AuditLogging.Services.AuditLogInfo/get-log-tenants"
     $method = "Post"
@@ -57,6 +56,54 @@ Function get-YDCompanyforauditlog{
     return $company
 }
 
+Function get-YDcompanyauditlog{
+    Param(
+        [string] $companyID
+    )
+    $headers = @{
+        "Authorization"= "Bearer $script:authtoken"
+    }
+    $uri = $script:baseUrl + "/api/v2/AuditLogging.Services.AuditLogInfo/get-log-entries"
+    $method = "Post"
+
+    $body = @{
+        skip      ='0'
+        Take      ='100'
+        Description = 'Update'
+        CompanyId = $companyID
+ } | ConvertTo-Json
+
+    $YDauditlog = Invoke-WebRequest -Method $method -Uri $uri -Headers $headers -body $body -ErrorAction Stop
+    $YDcompanyauditlog = $YDauditlog.content | ConvertFrom-Json
+    return $YDcompanyauditlog
+}
+
+
+Function get-YDActorauditlog{
+    Param(
+        [string] $user,
+        [string] $actorcompanyid,
+        [string] $companyID
+        
+    )
+    $headers = @{
+        "Authorization"= "Bearer $script:authtoken"
+    }
+    $uri = $script:baseUrl + "/api/v2/AuditLogging.Services.AuditLogInfo/get-log-entries-for-actor"
+    $method = "Post"
+    $body = @{
+        skip      ='0'
+        Take      ='100'
+        Description = 'Update'
+        ActorId = $user
+        actorcompanyid = $actorcompanyid
+        companyid = $companyID
+ } | ConvertTo-Json
+    $YDactorauditlog = Invoke-WebRequest -Method $method -Uri $uri -Headers $headers -body $body -ErrorAction Stop
+    $YDactorauditlog = $YDactorauditlog.content | ConvertFrom-Json
+    return $YDactorauditlog
+    
+}
 
 function get-YDmoduleversion {
     write-host $version
@@ -74,5 +121,7 @@ Export-ModuleMember -Function set-YDbaseurl,
 get-YDbaseurl,
 remove-YDbaseURL,
 get-YDCompanyforauditlog,
+get-YDcompanyauditlog,
+get-YDActorauditlog,
 get-YDtoken,
 get-YDmoduleversion
