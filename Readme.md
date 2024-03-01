@@ -31,26 +31,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 ## Ussage
 ### BaseURL
 You can set the baseurl by use the following command:<br>
-set-YDbaseurl -url {URL of the Ydentic Portal}
+**set-YDbaseurl -url {URL of the Ydentic Portal}**
 
 You can view the baseurl with the following command:<br>
-get-YDbaseurl
+**get-YDbaseurl**
 
 You can remove the baseurl with the following command:<br>
-remove-YDbaseurl
+**remove-YDbaseurl**
 
 ### Create Token
 You can create a token with the following command:<br>
-$token = get-ydtoken -baseurl {URL of the ydentic portal} -ydentictoken {Token created in Ydentic}
+**$token = get-ydtoken -baseurl {URL of the ydentic portal} -ydentictoken {Token created in Ydentic}**
 
 ### Get the companyinfo for using by audit log
 Get the company info for reading the auditlog with the following command:<br>
-$company = get-YDCompanyforauditlog -authtoken $token -companyname {Name of your company in Ydentic}
+**$company = get-YDCompanyforauditlog -authtoken $token -companyname {Name of your company in Ydentic}**
 
 
 ### Get the current module version
 You will get the version of my module with the following command:<br>
-get-YDmoduleversion
+**get-YDmoduleversion**
 
 
 
